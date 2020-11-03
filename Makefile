@@ -16,26 +16,27 @@
 #
 
 TEST_SHELL="./tools/test.sh"
+PLUGIN_DIR?=''
 
 .PHONY: test
 test:
-	${TEST_SHELL} test
+	${TEST_SHELL} test ${PLUGIN_DIR}
 
 .PHONY: deps
 deps:
-	${TEST_SHELL} deps
+	${TEST_SHELL} deps  ${PLUGIN_DIR}
 
 LINTER := bin/golangci-lint
 $(LINTER):
-	curl -L https://install.goreleaser.com/github.com/golangci/golangci-lint.sh | sh -s v1.20.1
+	curl -L https://install.goreleaser.com/github.com/golangci/golangci-lint.sh | sh -s v1.31.0
 
 .PHONY: lint
 lint: $(LINTER)
-	${TEST_SHELL} lint
+	${TEST_SHELL} lint ${PLUGIN_DIR}
 
 .PHONY: fix
 fix: $(LINTER)
-	${TEST_SHELL} fix
+	${TEST_SHELL} fix ${PLUGIN_DIR}
 
 .PHONY: license
 license:
